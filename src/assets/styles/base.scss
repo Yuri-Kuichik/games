@@ -1,0 +1,50 @@
+/* semantic variables for this project */
+:root {
+  --color-background: #ffffff;
+  --color-text-emphasis: #000000;
+  --color-text-medium: rgba(0,0,0, .5);
+  --color-text-light: rgba(0,0,0, .3);
+  --color-border-light: rgba(0,0,0, .1);
+  --color-border-emphasis: rgba(0,0,0, .2);
+  --color-background-grey: #f9fafb;
+  // --color-element-grey: #CDCCCA;
+  --color-primary: #0075ff;
+  --color-secondary: #F23B6F;
+  --color-white: #ffffff;
+  --color-btn-hover: rgba(192, 201, 216, .2);
+}
+
+html,
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--color-background);
+  color: var(--color-text-emphasis);
+  // font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: normal;
+}
+
+#app {
+  height: 100%;
+}
+
+[v-cloak] {
+  display: none !important;
+}
+
+button {
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+input {
+    background: transparent;
+    border: none;
+    overflow: hidden;
+    outline: none;
+}
