@@ -26,7 +26,6 @@ const props = defineProps({
         default: false
     }
 })
-console.log(props);
 
 const { value, errorMessage } = useField(() => props.name);
 
@@ -35,7 +34,7 @@ const { value, errorMessage } = useField(() => props.name);
 <template>
     <div class="form-input" :class="{'form-input_password': passwordField, 'js--error': errorMessage}">
         <div class="form-input__wrapper l-box l-box_fdc">
-            <label :for="name">User name</label>
+            <label :for="name">{{ label }}</label>
             <input 
                 v-model="value"
                 :type="type" 

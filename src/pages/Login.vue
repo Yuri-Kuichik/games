@@ -25,15 +25,13 @@ const switchVisibilityPassword = () => {
 }
 
 const submitForm = () => {
-    console.log('login');
     console.log('User name: ', userName.value)
     console.log('password: ', password.value)
 }
 
 const onSubmit = handleSubmit(values => {
-
     console.log('values: ', values)
-  alert(JSON.stringify(values, null, 2));
+    alert(JSON.stringify(values, null, 2));
 });
 
 </script>
