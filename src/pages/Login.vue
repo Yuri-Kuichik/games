@@ -1,7 +1,16 @@
 <script setup>
 import {ref} from 'vue'
+import {useRootStore} from '@/stores/root'
+import { useRouter, useRoute } from 'vue-router'
 import { useForm } from 'vee-validate';
 import FormInput from '@/components/FormInput.vue'
+
+const rootStore = useRootStore()
+const router = useRouter()
+
+// const userName = ref('richard')
+// const password = ref('poker')
+const passwordFieldType = ref('password')
 
 const isPassword = (val) => {
     return !val ? 'Input your passowrd' 
@@ -16,22 +25,16 @@ const { handleSubmit, errors } = useForm({
   },
 })
 
-const userName = ref('richard')
-const password = ref('poker')
-const passwordFieldType = ref('password')
-
 const switchVisibilityPassword = () => {
     passwordFieldType.value = passwordFieldType.value === 'password' ? 'text' : 'password'
 }
 
-const submitForm = () => {
-    console.log('User name: ', userName.value)
-    console.log('password: ', password.value)
-}
+const onSubmit = handleSubmit(async (values) => {
+    await rootStore.loginUser(values)
 
-const onSubmit = handleSubmit(values => {
-    console.log('values: ', values)
-    alert(JSON.stringify(values, null, 2));
+    if (!!rootStore.getAuthToken()) {
+        router.push({path: '/'})
+    }
 });
 
 </script>

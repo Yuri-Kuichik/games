@@ -95,14 +95,14 @@ const { value, errorMessage } = useField(() => props.name);
 
     &.js--error {
         input {
-            border-color: #ff003d;
+            border-color: var(--colors-error);
         }
     }
 
     &__error {
         margin-top: 4px;
         display: block;
-        color: #ff003d;
+        color: var(--colors-error);
         font-size: 12px;
         line-height: 16px;
     }
