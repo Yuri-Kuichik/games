@@ -1,22 +1,22 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import {LOGIN_URL, GAMES_URL, REFRESH_TOKEN_URL} from '../constants'
+import {LOGIN_URL, GAMES_URL, REFRESH_TOKEN_URL, BALANCE_URL} from '../constants'
 
 const AUTH_TOKEN_KEY = 'auth__accessToken'
 const AUTH_REFRESH_TOKEN_KEY = 'auth__refreshToken'
 
 export const useRootStore = defineStore('root', {
   state: () => ({
-    games: []
-
+    games: [],
+    balance: {} 
   }),
   actions: {
     async loginUser(data) {
       try {
         const response = await axios.post(LOGIN_URL, {
           clientId: "default", 
-          login: data.userName,  
-          password: data.password  
+          login: data.userName.trim(),  
+          password: data.password.trim()  
         })
         console.log(response.data.data[0].attributes)
 
@@ -28,12 +28,8 @@ export const useRootStore = defineStore('root', {
     },
 
     async logoutUser() {
-      try {
-
-
-      } catch (error) {
-
-      }
+      this.removeTokens()
+      location.reload();
     },
 
     async refreshToken() {
@@ -46,7 +42,6 @@ export const useRootStore = defineStore('root', {
             refreshToken: currentRefreshToken
           })
 
-          console.log(response.data)
           this.setTokens(response.data)
         } catch (error) {
           console.error(error);
@@ -55,8 +50,28 @@ export const useRootStore = defineStore('root', {
     },
 
     async getGames() {
-      const data = await axios.get(GAMES_URL)
-      console.log(data);
+      try {
+        const response = await axios.get(GAMES_URL)
+
+        console.log(response)
+        this.games = response.data?.data
+      } catch(error) {
+        console.log(error);
+      }
+    },
+
+    async getBalance() {
+      const accesToken = this.getAuthToken()
+
+      if(!!accesToken) {
+        try {
+          const response = await axios.get(`${BALANCE_URL}${accesToken}`)
+  
+          this.balance = response.data?.data[0]?.attributes
+        } catch(error) {
+          console.log(error);
+        }
+      }
     },
 
     setAutoRefreshToken() {
@@ -65,6 +80,14 @@ export const useRootStore = defineStore('root', {
       setInterval(function() {
         self.refreshToken()
       }, 800000);
+    },
+
+    setAutoRefreshBalance() {
+      const self = this
+
+      setInterval(function() {
+        self.getBalance()
+      }, 30000);
     },
 
     setTokens(data) {

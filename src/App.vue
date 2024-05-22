@@ -4,14 +4,9 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div class="app-view" v-cloak>
-    <RouterView />
-  </div>
+  <RouterView />
 </template>
 
 <style lang="scss">
-  .app-view {
-    min-height: 100%;
-  }
 
 </style>

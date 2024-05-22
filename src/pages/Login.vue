@@ -1,9 +1,10 @@
 <script setup>
 import {ref} from 'vue'
 import {useRootStore} from '@/stores/root'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useForm } from 'vee-validate';
 import FormInput from '@/components/FormInput.vue'
+import ShButton from '@/components/ShButton.vue'
 
 const rootStore = useRootStore()
 const router = useRouter()
@@ -33,7 +34,7 @@ const onSubmit = handleSubmit(async (values) => {
     await rootStore.loginUser(values)
 
     if (!!rootStore.getAuthToken()) {
-        router.push({path: '/'})
+        router.push({name: 'home'})
     }
 });
 
@@ -62,9 +63,9 @@ const onSubmit = handleSubmit(async (values) => {
                     :error="errors.password"
                 />
 
-                <button class="login__btn">
+                <ShButton class="login__btn">
                     <span>Submit</span>
-                </button>
+                </ShButton>
             </form>
         </div>
     </div>
@@ -77,6 +78,8 @@ const onSubmit = handleSubmit(async (values) => {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    width: 100%;
+    color: var(--color-text-login);
 
     &__form-wrapper {
         display: inline-flex;
@@ -96,19 +99,7 @@ const onSubmit = handleSubmit(async (values) => {
     }
 
     &__btn {
-        padding: 16px 32px;
         margin-top: 32px;
-        background: var(--color-primary);
-        color: var(--color-white);
-        border-radius: 8px;
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: 600;
-        width: 100%;
-
-        &:hover {
-            opacity: 0.9;
-        }
     }
 
     @media (min-width: 770px) {
