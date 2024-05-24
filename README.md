@@ -9,3 +9,8 @@ git clone (url from github)
 ```sh
 npm install
 ```
+
+## Launch development mode
+```sh
+npm run dev
+```
