@@ -26,7 +26,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to.params, from.params)
   const auth = !!localStorage.getItem('auth__accessToken')
 
   if (!auth && to.path !== '/login') {

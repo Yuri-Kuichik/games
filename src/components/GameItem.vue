@@ -1,6 +1,10 @@
 <script setup>
-import { computed } from "vue"
+import { ref, computed } from "vue"
+import axios from 'axios'
+import {GAME_LINK_URL} from '../constants'
 import ShButton from '@/components/ShButton.vue'
+
+const loading = ref(false)
 
 const props = defineProps({
     model: {
@@ -17,6 +21,30 @@ const title = computed(() => {
     return props.model.attributes?.title || ''
 })
 
+const getGameLink = async () => {
+
+    if(!!props.model.id) {
+        try {
+            loading.value = true
+
+            const responce = await axios.post(`${GAME_LINK_URL.replace('{gameId}', props.model.id)}`, {
+                clientId: "default", 
+                gameId: props.model.id       
+            })
+
+            const link = responce.data?.data[0]?.attributes['launch-options']?.['game-url']
+            if(!!link) {
+                window.open(link, '_blank')
+            }
+
+            loading.value = false
+
+        } catch(error) {
+            console.log(error)
+        }
+      }
+}
+
 </script>
 
 <template>
@@ -28,7 +56,7 @@ const title = computed(() => {
                 <img v-else src="@/assets/images/no_image.jpg" alt="game image">
             </div>
             
-            <ShButton>
+            <ShButton :loading="loading" @click="getGameLink">
                 <span>Play Demo</span>
             </ShButton>
         </figure>

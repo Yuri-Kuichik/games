@@ -1,32 +1,27 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import {useRootStore} from '@/stores/root'
-import { storeToRefs } from 'pinia'
 
 import SideBar from '@/components/SideBar.vue'
 import GameList from '@/components/GameList.vue'
 
 const rootStore = useRootStore()
-const isReady = ref(false)
-
-rootStore.getGames()
-const { games } = storeToRefs(rootStore) 
 
 onMounted(() => {
+    rootStore.refreshToken()
     rootStore.setAutoRefreshToken()
-    isReady.value = true
 })
 
 </script>
 
 <template>
-    <section class="home-page" v-if="isReady">
+    <section class="home-page">
         <div class="home-page__wrapper">
             <div class="home-page__side-bar-wrapper">
                 <SideBar class="home-page__side-bar"></SideBar>
             </div>
             
-            <GameList :games="games" class="home-page__content"></GameList>
+            <GameList class="home-page__content"></GameList>
         </div>
     </section>
 </template>

@@ -2,6 +2,7 @@
 import {ref} from 'vue'
 import {useRootStore} from '@/stores/root'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import { useForm } from 'vee-validate';
 import FormInput from '@/components/FormInput.vue'
 import ShButton from '@/components/ShButton.vue'
@@ -9,8 +10,8 @@ import ShButton from '@/components/ShButton.vue'
 const rootStore = useRootStore()
 const router = useRouter()
 
-// const userName = ref('richard')
-// const password = ref('poker')
+const { loadingLogin } = storeToRefs(rootStore)
+
 const passwordFieldType = ref('password')
 
 const isPassword = (val) => {
@@ -63,7 +64,7 @@ const onSubmit = handleSubmit(async (values) => {
                     :error="errors.password"
                 />
 
-                <ShButton class="login__btn">
+                <ShButton class="login__btn" :loading="loadingLogin">
                     <span>Submit</span>
                 </ShButton>
             </form>
